@@ -1,54 +1,99 @@
+let humanSelection = '';
+let computerSelection = '';
+let computerScore = 0;
+let fail = 0;
+let humanScore = 0;
+let playerName = window.prompt("what is your first name?"); 
 
-function getComputerChoice () {
-    elements = ["Rock", "Paper", "Scissor"]
-    var randomNumber = Math.floor(Math.random()*elements.length);
-    return elements[randomNumber]
-}
-let computerSelection = getComputerChoice()
-function playerSelections() {
-    selections = window.prompt("Enter your choice");
-    selections = selections.toLowerCase();
-    return selections;
-}
-function game() {
-    let computer = 0;
-    let human = 0;
-    let times = 0;
-    while (times < 5) {
-        let humanSelection = playerSelections();
-        if (humanSelection === "rock" && computerSelection === "scissor") {
-            computer++;
-            console.log(computer)
-        }else if (computerSelection === "rock" && humanSelection === "scissor") {
-            human++;
-            console.log(human);
-        }else if (humanSelection === "paper" && computerSelection === "scissor") {
-            computer++;
-            console.log(computer);
-        }else if (computerSelection === "paper" && humanSelection === "scissor") {
-            human++;
-            console.log(human);
-        }else if (humanSelection === "rock" && computerSelection === "paper") {
-            computer++;
-            console.log(computer);
-        }else if (computerSelection === "rock" && humanSelection === "paper") {
-            human++;
-            console.log(human);
-        }else {
-            console.log("tie");
-        }
-        times++;
+// getting the user choice
+const humanDisplayEl = document.querySelector('#human_results-el');
+const computerDisplayEl = document.querySelector('#computer_results-el');
+const resultWordsEl = document.querySelector('#result_words-el')
+const paper = document.querySelector("#paper");
+const computer = document.getElementById('computer');
+const human = document.getElementById('human');
+ paper.addEventListener('click', function() {
+    if (computerScore === 5 && humanScore == 5){
+        resultWordsEl.textContent = "Draw Game!";
+    }else if (computerScore === 5 && humanScore < 5) {
+        resultWordsEl.textContent = "You lose!";
+    }else if (humanScore === 5 && computerScore < 5) {
+        resultWordsEl.textContent = "you won";
+    }else{
+        humanSelection = paper.id;
+        computerSelection = getComputerChoice();
+        playRound(computerSelection, humanSelection);
+        human.textContent = humanSelection;
+        computer.textContent = computerSelection;
     }
-    return [human, computer];   
-}
-game()
-function results() {
-    if (human < computer) {
-        console.log(`you lose computer score ${computer} and you score ${human}`)
-    }else if (computer < human) {
-        console.log(`you win computer score ${computer} and you score ${human}`)
-    }else {
-        console.log("tie")
+    
+})
+const rock= document.querySelector("#rock");
+ rock.addEventListener('click', function() {
+    if (computerScore === 5 && humanScore == 5){
+        resultWordsEl.textContent = "Draw Game!";
+    }else if (computerScore === 5 && humanScore < 5) {
+        resultWordsEl.textContent = "You lose!";
+    }else if (humanScore === 5 && computerScore < 5) {
+        resultWordsEl.textContent = "you won";
+    }else{
+        humanSelection = rock.id;
+        computerSelection = getComputerChoice();
+        playRound(computerSelection, humanSelection);
+        human.textContent = humanSelection;
+        computer.textContent = computerSelection;
     }
-    console.log()
+    
+})
+const scissor = document.querySelector("#scissor");
+ scissor.addEventListener('click', function() {
+    if (computerScore === 5 && humanScore == 5){
+        resultWordsEl.textContent = "Draw Game!";
+    }else if (computerScore === 5 && humanScore < 5) {
+        resultWordsEl.textContent = "You lose!";
+    }else if (humanScore === 5 && computerScore < 5) {
+        resultWordsEl.textContent = "you won";
+    }else{
+        humanSelection = scissor.id;
+        computerSelection = getComputerChoice();
+        playRound(computerSelection, humanSelection);
+        human.textContent = humanSelection;
+        computer.textContent = computerSelection;
+    }
+     
+})
+
+function getComputerChoice() {
+     elements = ["rock", "paper", "scissor"];
+     var randomNumber = Math.floor(Math.random()*elements.length);
+     return elements[randomNumber];
 }
+
+ function playRound(computerSelection, humanSelection) {
+     if (computerSelection === humanSelection) {
+        fail = 0;
+        humanDisplayEl.textContent = playerName + ": " + humanScore;
+        computerDisplayEl.textContent = "Cyrus" + ":" + computerScore;
+         resultWordsEl.textContent = "tie";
+     }
+     else if (computerSelection === "rock" && humanSelection === "scissor" ||
+             computerSelection === 'scissor' && humanSelection === "paper" ||
+             computerSelection === "paper" && humanSelection === "rock") {
+                 computerScore++;
+                 fail++;
+                 humanDisplayEl.textContent = playerName + ": " + humanScore;
+                 computerDisplayEl.textContent = "Cyrus" + ":" + computerScore;
+                 if (fail === 1) {resultWordsEl.textContent = "sorry my friend";}
+                 else if (fail === 2) {resultWordsEl.textContent = "Ooooops!!!! sorry";}
+                 else if (fail === 5) {resultWordsEl.textContent = "You're not good at this game, you lost with a zero";}
+                 else {resultWordsEl.textContent = "Sorry!";}
+             }
+     else {
+        humanScore++;
+        fail = 0;
+        humanDisplayEl.textContent = playerName + ": " + humanScore;
+        computerDisplayEl.textContent = "Cyrus" + ":" + computerScore;
+        resultWordsEl.textContent = "great job my friend";
+     }
+ }
+ 
